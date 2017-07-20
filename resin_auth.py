@@ -10,7 +10,7 @@ RESIN_API_TOKEN_SALT = os.getenv("RESIN_API_TOKEN_SALT", 'default salt...beware!
 
 class ResinAPIToken(object):
 
-    def __init__(self token_data=None):
+    def __init__(self, token_data=None):
         self.token_data = token_data
         self.last_check = None
         self.token = self.update_token()
@@ -67,7 +67,7 @@ class ResinAPITokenStore(object):
 
     def _parse_token(self, token_data):
         token = Token()
-        token.is_valid_token(token_data)
+        token.is_valid_token(self.token_data)
         return token
 
     def list_tokens(self):
@@ -94,7 +94,6 @@ class ResinAPITokenFileSystemStore(ResinAPITokenStore):
 
     def _read_token(self, id):
         token = Token()
-        file_path = 
         try:
             with open(self.token_file_path(id), 'r') as f:
                 token.load_from_json(f.read())
